@@ -1,0 +1,62 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    // font-family: 'Azeret Mono', monospace;
+}
+
+.wrapper {
+    max-width: 1000px;
+    margin: 40px auto;
+    background-color: rgb(215, 146, 49);
+    text-align: center;
+    & h1 {
+        margin-bottom: 70px;
+        font-size: 50px;
+    }
+}
+
+.settings {
+    max-width: 600px;
+    display: flex;
+    justify-content: space-around;
+    margin: 0 auto;
+    & .break-conteiner, .session-conteiner {
+        display: flex;
+        flex-wrap: wrap;
+        width: 300px;
+        justify-content: center;
+        & h2 {
+            width: 300px;
+        }
+        & button, .session__text, .break__text {
+            margin: 30px 20px;
+            padding: 5px;
+        }
+    }
+}
+
+.timer-session, .timer-break {
+    margin: 0 auto;
+    width: 300px;
+    margin-top: 50px;
+    border: 2px solid black;
+    border-radius: 20px;
+    & h2 {
+        margin-top: 10px;
+    }
+    & .clock {
+        padding: 30px;
+        font-size: 24px;
+    }
+}
+
+.buttons {
+    margin-top:40px;
+    & .start, .stop, .refresh {
+        margin: 0 15px;
+        padding: 5px 20px;
+    }
+}

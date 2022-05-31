@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Pomodoro Clock</h1>
+        <div class="settings">
+            <div class="session-conteiner">
+                <h2>Session Length</h2>
+                <button class="session__down">Down</button>
+                <div class="session__text"> <span class="session__text__minutes">25</span>:00</div>
+                <button class="session__up">Up</button>
+            </div>
+            <div class="break-conteiner">
+                <h2>Break Lenght</h2>
+                <button class="break__down">Down</button>
+                <div class="break__text"> <span class="break__text__minutes">5</span>:00</div>
+                <button class="break__up">Up</button>
+            </div>
+        </div>
+        <div class="timer-session">
+            <h2>Session</h2>
+            <div class="clock">
+                <span class="minutes__session">25</span> :
+                <span class="seconds__session">10</span>
+            </div>
+        </div>
+        <!-- <div class="timer-break">
+            <h2>Break</h2>
+            <div class="clock">
+                <span class="minutes__break">00</span> :
+                <span class="seconds__break">00</span>
+            </div>
+        </div> -->
+        <div class="buttons">
+            <button class="start">Start</button>
+            <button class="stop">Stop</button>
+            <button class="refresh">Refresh</button>
+        </div>
+</div>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  max-width: 1000px;
+  margin: 40px auto;
+  background-color: #d79231;
+  text-align: center;
+}
+
+.wrapper h1 {
+  margin-bottom: 70px;
+  font-size: 50px;
+}
+
+.settings {
+  max-width: 600px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  margin: 0 auto;
+}
+
+.settings .break-conteiner, .settings .session-conteiner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 300px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.settings .break-conteiner h2, .settings .session-conteiner h2 {
+  width: 300px;
+}
+
+.settings .break-conteiner button, .settings .break-conteiner .session__text, .settings .break-conteiner .break__text, .settings .session-conteiner button, .settings .session-conteiner .session__text, .settings .session-conteiner .break__text {
+  margin: 30px 20px;
+  padding: 5px;
+}
+
+.timer-session, .timer-break {
+  margin: 0 auto;
+  width: 300px;
+  margin-top: 50px;
+  border: 2px solid black;
+  border-radius: 20px;
+}
+
+.timer-session h2, .timer-break h2 {
+  margin-top: 10px;
+}
+
+.timer-session .clock, .timer-break .clock {
+  padding: 30px;
+  font-size: 24px;
+}
+
+.buttons {
+  margin-top: 40px;
+}
+
+.buttons .start, .buttons .stop, .buttons .refresh {
+  margin: 0 15px;
+  padding: 5px 20px;
+}
+/*# sourceMappingURL=style.css.map */
