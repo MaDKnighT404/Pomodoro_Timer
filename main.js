@@ -3,19 +3,23 @@
 let secondS = 0,
     minuteS = 0,
     timerStart = false,
-    pressStop = false,
+    pressPause = false,
     sessionEnd = false,
     secondB = 0,
     minuteB = 0,
+    amountOfSessions = 1,
+    amountOfBreaks = 1,
+    pomodorosCounter = 1,
     interval;
 
 
+const body = document.querySelector('body');
 
 
     // buttons
 
 
-const btnLength = document.querySelectorAll('.btn__length')
+const btnLength = document.querySelectorAll('.btn__length');
       sessionLenght = document.querySelector('.session__text__minutes');
       breakLenght = document.querySelector('.break__text__minutes');
 
@@ -28,7 +32,7 @@ const btnOk = document.querySelector('.modal__ok')
 
 
 const start = document.querySelector('.start'),
-    stop = document.querySelector('.stop'),
+    pause = document.querySelector('.pause'),
     refresh = document.querySelector('.refresh');
 
 // timers
@@ -40,10 +44,17 @@ const timerSession = document.querySelector('.timer-session'),
       secondsBreak = document.querySelector('.seconds__break'),
       minutesBreak = document.querySelector('.minutes__break');
 
+      
+const audioStart = document.querySelector('[data-start');
+const audioStop = document.querySelector('[data-stop');
+
+const sessionTitle = document.querySelector('[data-session__title]');
+const breakTitle = document.querySelector('[data-break__title]');
+
+const pomodorosContainer = document.querySelector('.pomodoros__container');
 const circles = document.querySelector('.circles');
-const bell = document.querySelector('audio');
 
-
+clearAll()
 // Listeners
 
 // modal
@@ -51,6 +62,9 @@ const bell = document.querySelector('audio');
 btnOk.addEventListener('click', () => {
     modalWindow.classList.add('hide');
     modalWindow.classList.remove('show')
+    btnLength.forEach(btn => {
+        btn.removeAttribute('disabled', 'disabled');
+    })
 })
 
 document.addEventListener('keydown', (event) => {
@@ -104,27 +118,28 @@ btnLength.forEach (btn => {
 start.addEventListener('click', ()=> {
     clearInterval(interval);
 
-    if (minuteS != 0 && minutesSession.textContent != 0 && minuteB != 0 && minutesBreak.textContent != 0 || pressStop == true) {
+    if((minuteS != 0 || secondS != 0) && breakLenght.textContent != 0) {
     interval = setInterval(startTimer, 10)
     }
 
-    if (minuteS == 0 && minutesSession.textContent == 0  && timerStart === false && pressStop == false) {
+    if (minuteS == 0 && secondS == 0 && minutesSession.textContent == 0 && timerStart === false && pressPause == false) {
+        createModalMessage('Session')
         modalWindow.classList.add('show');
         modalWindow.classList.remove('hide');
-        createModalMessage('Session')
     }
 
-    if (minuteB == 0 && minutesBreak.textContent == 0  && timerStart === false && pressStop == false) {
+    if (minuteB == 0 && secondB == 0 && minutesBreak.textContent == 0 && timerStart === false && pressPause == false) {
         createModalMessage('Break')
         modalWindow.classList.add('show');
         modalWindow.classList.remove('hide');
     }
+
 })
 
-stop.addEventListener('click', () => {
+pause.addEventListener('click', () => {
     clearInterval(interval);
     timerStart = false;
-    pressStop = true;
+    pressPause = true;
 })
 
 refresh.addEventListener('click', clearAll);
@@ -136,19 +151,56 @@ refresh.addEventListener('click', clearAll);
 
 //functions
 
+function addPomodoro () {
+    const pomodoro = document.createElement('img')
+    pomodoro.classList.add('pomodoro');
+    pomodoro.src = `img/pomodoro${pomodorosCounter}.png`;
+    
+    if (circles.textContent <= 15) {
+        pomodorosContainer.append(pomodoro);
+    } else { 
+
+
+        modalText.innerHTML = 
+        `
+        Impressive! <br><br> You work so hard! <br> Please take a break
+        `;
+        modalWindow.classList.add('show');
+        modalWindow.classList.remove('hide');
+        clearAll();
+    }
+
+
+    if(pomodorosCounter == 1) {
+        pomodorosCounter++;
+    } else {
+        pomodorosCounter = 1;
+    }
+
+
+}
+
+
+
 function createModalMessage(time) {
     modalText.innerHTML = 
     `
-    Sorry! <br><br> You need to set <br> <strong> ${time} Length</strong>
-    `
+    Sorry! <br><br> You need to set <br> ${time} Length
+    `;
 }
 
 function startTimer () {
-
+    if ( circles.textContent == 0 && timerStart === false && pressPause == false) { 
+        audioStart.play();
+        timerStart = true;
+    }
     startSessionTimer();
 
     startBreakTimer();
 
+    btnLength.forEach(btn => {
+        btn.setAttribute('disabled', 'disabled');
+    })
 }
 
 function startSessionTimer() {
@@ -168,7 +220,19 @@ function startSessionTimer() {
         minutesBreak.textContent = breakLenght.textContent;
         minuteB = +minutesBreak.textContent;
         sessionEnd = true;
-        bell.play()
+        amountOfSessions++
+        sessionTitle.innerHTML = 
+        `
+        Session ${amountOfSessions}
+        `;
+        body.classList.add('night'); // night
+        body.classList.remove('day');
+
+        pomodorosContainer.classList.add('tractor_night');
+        pomodorosContainer.classList.remove('tractor_day');
+        audioStop.play();
+
+
     }
 
 }
@@ -192,7 +256,20 @@ function startBreakTimer() {
         sessionEnd = false;
         minutesSession.textContent = sessionLenght.textContent;
         minuteS = +minutesSession.textContent;
-        bell.play()
+        
+        amountOfBreaks++;
+        breakTitle.innerHTML = 
+        `
+        Break ${amountOfBreaks}
+        `;
+        body.classList.add('day'); //day
+        body.classList.remove('night');
+
+        pomodorosContainer.classList.add('tractor_day');
+        pomodorosContainer.classList.remove('tractor_night');
+
+        audioStart.play();
+        addPomodoro ();
     }
 }
 
@@ -202,6 +279,7 @@ function startBreakTimer() {
 
 function clearAll () {
     clearInterval(interval);
+    circles.textContent = 0;
     secondS = 0;
     secondB = 0;
     minuteS = 0;
@@ -217,13 +295,35 @@ function clearAll () {
 
     timerSession.style.display = '';
     timerBreak.style.display = 'none';
-    circles.textContent = 0;
+
+    btnLength.forEach(btn => {
+        btn.removeAttribute('disabled', 'disabled');
+    })
+
     sessionEnd = false;
-    pressStop = false;
+    pressPause = false;
+    timerStart = false;
     modalWindow.classList.add('hide')
+    
+    sessionTitle.innerHTML = 'Session 1';
+    breakTitle.innerHTML = 'Break 1';
+    amountOfSessions = 1;
+    amountOfBreaks = 1;
+
+    body.classList.add('day');
+    body.classList.remove('night');
+
+    pomodorosContainer.classList.add('tractor_day');
+    pomodorosContainer.classList.remove('tractor_night');
+    
+    pomodorosCounter = 1;
+
+    const pomodoros = document.querySelectorAll(".pomodoro");
+    pomodoros.forEach(e => e.remove());
+
 }
 
-clearAll()
+
 
 function addZero(num) {
     if(num >= 0 && num < 10) {
@@ -237,10 +337,3 @@ function addZero(num) {
 
 
 
-
-
-// interval2 = setInterval(equalize, 10)
-// function equalize () {
-//     minutes = sessionLenght.textContent;
-//     minutesSession.textContent = addZero(minutes);
-// }
